@@ -1,52 +1,74 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-const initialProducts = [{
-  id: 0,
-  name: 'Baklava',
-  count: 1,
-}, {
-  id: 1,
-  name: 'Queso',
-  count: 5,
-}, {
-  id: 2,
-  name: 'Espaguetis',
-  count: 2,
-}];
+const initialProducts = [
+  {
+    id: 0,
+    name: "Baklava",
+    count: 1,
+  },
+  {
+    id: 1,
+    name: "Queso",
+    count: 5,
+  },
+  {
+    id: 2,
+    name: "Espaguetis",
+    count: 2,
+  },
+];
 
 export default function ShoppingCart() {
-  const [
-    products,
-    setProducts
-  ] = useState(initialProducts)
+  const [products, setProducts] = useState(initialProducts);
 
   function handleIncreaseClick(productId) {
-    setProducts(products.map(product => {
-      if (product.id === productId) {
-        return {
-          ...product,
-          count: product.count + 1
-        };
-      } else {
-        return product;
-      }
-    }))
+    setProducts(
+      products.map((product) => {
+        if (product.id === productId) {
+          return {
+            ...product,
+            count: product.count + 1,
+          };
+        } else {
+          return product;
+        }
+      })
+    );
+  }
+
+  function handleDecreaseClick(productId) {
+    setProducts(
+      products
+        .map((p) => {
+          //  p.id === productId ? { ...p, count: p.count - 1 } : p;
+          if (p.id === productId) {
+            return { ...p, count: p.count - 1 };
+          } else {
+            return p;
+          }
+        })
+        .filter((p) => p.count !== 0)
+    );
   }
 
   return (
     <ul>
-      {products.map(product => (
+      {products.map((product) => (
         <li key={product.id}>
-          {product.name}
-          {' '}
-          (<b>{product.count}</b>)
-          <button onClick={() => {
-            handleIncreaseClick(product.id);
-          }}>
+          {product.name} (<b>{product.count}</b>)
+          <button
+            onClick={() => {
+              handleIncreaseClick(product.id);
+            }}
+          >
             +
           </button>
-          <button>
-            –
+          <button
+            onClick={() => {
+              handleDecreaseClick(product.id);
+            }}
+          >
+            -
           </button>
         </li>
       ))}

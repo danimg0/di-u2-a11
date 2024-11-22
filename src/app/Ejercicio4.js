@@ -29,6 +29,14 @@ export default function TaskApp() {
     );
     todo.title = nextTodo.title;
     todo.done = nextTodo.done;
+    /*
+      updateTodos(draft => {
+        const todo = draft.find(t => 
+          t.id === nextTodo.id);
+          todo.title = nextTodo.title;
+          todo.done = nextTodo.done;  
+      })
+    */
   }
 
   function handleDeleteTodo(todoId) {
@@ -36,6 +44,15 @@ export default function TaskApp() {
       t.id === todoId
     );
     todos.splice(index, 1);
+    /*
+    updateTodos(draft => {
+      const index = draft.findIndex(t => 
+        t.id === todoId
+      );
+      draft.splice(index, 1);
+    })
+    */
+
   }
 
   return (
