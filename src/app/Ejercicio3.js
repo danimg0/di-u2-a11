@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AddTodo from './AddTodo.js';
 import TaskList from './TaskList.js';
+import next from 'next';
 
 let nextId = 3;
 const initialTodos = [
@@ -15,38 +16,45 @@ export default function TaskApp() {
   );
 
   function handleAddTodo(title) {
-    todos.push({
+    setTodos([...todos,
+    {
       id: nextId++,
       title: title,
       done: false
-    });
+    }])
   }
 
   function handleChangeTodo(nextTodo) {
-    const todo = todos.find(t =>
-      t.id === nextTodo.id
-    );
-    todo.title = nextTodo.title;
-    todo.done = nextTodo.done;
+    setTodos(todos.map(item => {
+      if (item.id === nextTodo.id) {
+        return nextTodo;
+      } else {
+        return item;
+      }
+    }));
+
+    // const todo = todos.find(t =>
+    //   t.id === nextTodo.id
+    // );
+    // todo.title = nextTodo.title;
+    // todo.done = nextTodo.done;
   }
 
   function handleDeleteTodo(todoId) {
-    const index = todos.findIndex(t =>
-      t.id === todoId
-    );
-    todos.splice(index, 1);
+    setTodos(todos.filter(item => item.id !== todoId));
   }
+  
 
-  return (
-    <>
-      <AddTodo
-        onAddTodo={handleAddTodo}
-      />
-      <TaskList
-        todos={todos}
-        onChangeTodo={handleChangeTodo}
-        onDeleteTodo={handleDeleteTodo}
-      />
-    </>
-  );
+return (
+  <>
+    <AddTodo
+      onAddTodo={handleAddTodo}
+    />
+    <TaskList
+      todos={todos}
+      onChangeTodo={handleChangeTodo}
+      onDeleteTodo={handleDeleteTodo}
+    />
+  </>
+);
 }
